@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: ji_xun-search
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Administrator
+Implementation-Vendor-Id: com.jluzh
+Build-Jdk: 1.8.0_171
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/ji_xun-search
+Created-By: Maven Integration for Eclipse
+

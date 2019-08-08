@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jluzh.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.jluzh.model.Product" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="proWX" property="prowx" jdbcType="VARCHAR" />
+    <result column="product_category_id" property="productCategoryId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="delete_status" property="deleteStatus" jdbcType="INTEGER" />
+    <result column="publish_status" property="publishStatus" jdbcType="INTEGER" />
+    <result column="new_status" property="newStatus" jdbcType="INTEGER" />
+    <result column="recommand_status" property="recommandStatus" jdbcType="INTEGER" />
+    <result column="verify_status" property="verifyStatus" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="stock_lock" property="stockLock" jdbcType="INTEGER" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="service_ids" property="serviceIds" jdbcType="VARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="album_pics" property="albumPics" jdbcType="VARCHAR" />
+    <result column="detail_title" property="detailTitle" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="product_category_name" property="productCategoryName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jluzh.model.Product" extends="BaseResultMap" >
+    <result column="detail_desc" property="detailDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, proWX, product_category_id, name, pic, time, delete_status, publish_status, 
+    new_status, recommand_status, verify_status, sort, price, sub_title, description, 
+    original_price, stock, stock_lock, unit, service_ids, keywords, note, album_pics, 
+    detail_title, brand_name, product_category_name
+  </sql>
+  <sql id="Blob_Column_List" >
+    detail_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.jluzh.model.ProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jluzh.model.ProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jluzh.model.ProductExample" >
+    delete from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jluzh.model.Product" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product (user_id, proWX, product_category_id, 
+      name, pic, time, 
+      delete_status, publish_status, new_status, 
+      recommand_status, verify_status, sort, 
+      price, sub_title, description, 
+      original_price, stock, stock_lock, 
+      unit, service_ids, keywords, 
+      note, album_pics, detail_title, 
+      brand_name, product_category_name, detail_desc
+      )
+    values (#{userId,jdbcType=BIGINT}, #{prowx,jdbcType=VARCHAR}, #{productCategoryId,jdbcType=BIGINT}, 
+      #{name,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
+      #{deleteStatus,jdbcType=INTEGER}, #{publishStatus,jdbcType=INTEGER}, #{newStatus,jdbcType=INTEGER}, 
+      #{recommandStatus,jdbcType=INTEGER}, #{verifyStatus,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{subTitle,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{originalPrice,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER}, #{stockLock,jdbcType=INTEGER}, 
+      #{unit,jdbcType=VARCHAR}, #{serviceIds,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{albumPics,jdbcType=VARCHAR}, #{detailTitle,jdbcType=VARCHAR}, 
+      #{brandName,jdbcType=VARCHAR}, #{productCategoryName,jdbcType=VARCHAR}, #{detailDesc,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jluzh.model.Product" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="prowx != null" >
+        proWX,
+      </if>
+      <if test="productCategoryId != null" >
+        product_category_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="deleteStatus != null" >
+        delete_status,
+      </if>
+      <if test="publishStatus != null" >
+        publish_status,
+      </if>
+      <if test="newStatus != null" >
+        new_status,
+      </if>
+      <if test="recommandStatus != null" >
+        recommand_status,
+      </if>
+      <if test="verifyStatus != null" >
+        verify_status,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="subTitle != null" >
+        sub_title,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="originalPrice != null" >
+        original_price,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="stockLock != null" >
+        stock_lock,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="serviceIds != null" >
+        service_ids,
+      </if>
+      <if test="keywords != null" >
+        keywords,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="albumPics != null" >
+        album_pics,
+      </if>
+      <if test="detailTitle != null" >
+        detail_title,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="productCategoryName != null" >
+        product_category_name,
+      </if>
+      <if test="detailDesc != null" >
+        detail_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="prowx != null" >
+        #{prowx,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="publishStatus != null" >
+        #{publishStatus,jdbcType=INTEGER},
+      </if>
+      <if test="newStatus != null" >
+        #{newStatus,jdbcType=INTEGER},
+      </if>
+      <if test="recommandStatus != null" >
+        #{recommandStatus,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStatus != null" >
+        #{verifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="subTitle != null" >
+        #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null" >
+        #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="stockLock != null" >
+        #{stockLock,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceIds != null" >
+        #{serviceIds,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="albumPics != null" >
+        #{albumPics,jdbcType=VARCHAR},
+      </if>
+      <if test="detailTitle != null" >
+        #{detailTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryName != null" >
+        #{productCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="detailDesc != null" >
+        #{detailDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jluzh.model.ProductExample" resultType="java.lang.Integer" >
+    select count(*) from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.prowx != null" >
+        proWX = #{record.prowx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productCategoryId != null" >
+        product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic != null" >
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteStatus != null" >
+        delete_status = #{record.deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.publishStatus != null" >
+        publish_status = #{record.publishStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.newStatus != null" >
+        new_status = #{record.newStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommandStatus != null" >
+        recommand_status = #{record.recommandStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.verifyStatus != null" >
+        verify_status = #{record.verifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.subTitle != null" >
+        sub_title = #{record.subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.originalPrice != null" >
+        original_price = #{record.originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=INTEGER},
+      </if>
+      <if test="record.stockLock != null" >
+        stock_lock = #{record.stockLock,jdbcType=INTEGER},
+      </if>
+      <if test="record.unit != null" >
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceIds != null" >
+        service_ids = #{record.serviceIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywords != null" >
+        keywords = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumPics != null" >
+        album_pics = #{record.albumPics,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailTitle != null" >
+        detail_title = #{record.detailTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandName != null" >
+        brand_name = #{record.brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productCategoryName != null" >
+        product_category_name = #{record.productCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detailDesc != null" >
+        detail_desc = #{record.detailDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update product
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      proWX = #{record.prowx,jdbcType=VARCHAR},
+      product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      delete_status = #{record.deleteStatus,jdbcType=INTEGER},
+      publish_status = #{record.publishStatus,jdbcType=INTEGER},
+      new_status = #{record.newStatus,jdbcType=INTEGER},
+      recommand_status = #{record.recommandStatus,jdbcType=INTEGER},
+      verify_status = #{record.verifyStatus,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      sub_title = #{record.subTitle,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      original_price = #{record.originalPrice,jdbcType=DECIMAL},
+      stock = #{record.stock,jdbcType=INTEGER},
+      stock_lock = #{record.stockLock,jdbcType=INTEGER},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      service_ids = #{record.serviceIds,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR},
+      album_pics = #{record.albumPics,jdbcType=VARCHAR},
+      detail_title = #{record.detailTitle,jdbcType=VARCHAR},
+      brand_name = #{record.brandName,jdbcType=VARCHAR},
+      product_category_name = #{record.productCategoryName,jdbcType=VARCHAR},
+      detail_desc = #{record.detailDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      proWX = #{record.prowx,jdbcType=VARCHAR},
+      product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      delete_status = #{record.deleteStatus,jdbcType=INTEGER},
+      publish_status = #{record.publishStatus,jdbcType=INTEGER},
+      new_status = #{record.newStatus,jdbcType=INTEGER},
+      recommand_status = #{record.recommandStatus,jdbcType=INTEGER},
+      verify_status = #{record.verifyStatus,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=DECIMAL},
+      sub_title = #{record.subTitle,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      original_price = #{record.originalPrice,jdbcType=DECIMAL},
+      stock = #{record.stock,jdbcType=INTEGER},
+      stock_lock = #{record.stockLock,jdbcType=INTEGER},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      service_ids = #{record.serviceIds,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR},
+      album_pics = #{record.albumPics,jdbcType=VARCHAR},
+      detail_title = #{record.detailTitle,jdbcType=VARCHAR},
+      brand_name = #{record.brandName,jdbcType=VARCHAR},
+      product_category_name = #{record.productCategoryName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jluzh.model.Product" >
+    update product
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="prowx != null" >
+        proWX = #{prowx,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteStatus != null" >
+        delete_status = #{deleteStatus,jdbcType=INTEGER},
+      </if>
+      <if test="publishStatus != null" >
+        publish_status = #{publishStatus,jdbcType=INTEGER},
+      </if>
+      <if test="newStatus != null" >
+        new_status = #{newStatus,jdbcType=INTEGER},
+      </if>
+      <if test="recommandStatus != null" >
+        recommand_status = #{recommandStatus,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStatus != null" >
+        verify_status = #{verifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="subTitle != null" >
+        sub_title = #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="originalPrice != null" >
+        original_price = #{originalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="stockLock != null" >
+        stock_lock = #{stockLock,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceIds != null" >
+        service_ids = #{serviceIds,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="albumPics != null" >
+        album_pics = #{albumPics,jdbcType=VARCHAR},
+      </if>
+      <if test="detailTitle != null" >
+        detail_title = #{detailTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryName != null" >
+        product_category_name = #{productCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="detailDesc != null" >
+        detail_desc = #{detailDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jluzh.model.Product" >
+    update product
+    set user_id = #{userId,jdbcType=BIGINT},
+      proWX = #{prowx,jdbcType=VARCHAR},
+      product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      publish_status = #{publishStatus,jdbcType=INTEGER},
+      new_status = #{newStatus,jdbcType=INTEGER},
+      recommand_status = #{recommandStatus,jdbcType=INTEGER},
+      verify_status = #{verifyStatus,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      stock = #{stock,jdbcType=INTEGER},
+      stock_lock = #{stockLock,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=VARCHAR},
+      service_ids = #{serviceIds,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      album_pics = #{albumPics,jdbcType=VARCHAR},
+      detail_title = #{detailTitle,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      product_category_name = #{productCategoryName,jdbcType=VARCHAR},
+      detail_desc = #{detailDesc,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jluzh.model.Product" >
+    update product
+    set user_id = #{userId,jdbcType=BIGINT},
+      proWX = #{prowx,jdbcType=VARCHAR},
+      product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      delete_status = #{deleteStatus,jdbcType=INTEGER},
+      publish_status = #{publishStatus,jdbcType=INTEGER},
+      new_status = #{newStatus,jdbcType=INTEGER},
+      recommand_status = #{recommandStatus,jdbcType=INTEGER},
+      verify_status = #{verifyStatus,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      stock = #{stock,jdbcType=INTEGER},
+      stock_lock = #{stockLock,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=VARCHAR},
+      service_ids = #{serviceIds,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      album_pics = #{albumPics,jdbcType=VARCHAR},
+      detail_title = #{detailTitle,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      product_category_name = #{productCategoryName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

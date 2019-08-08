@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jluzh.mapper.ProductCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.jluzh.model.ProductCategory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="product_count" property="productCount" jdbcType="INTEGER" />
+    <result column="product_unit" property="productUnit" jdbcType="VARCHAR" />
+    <result column="nav_status" property="navStatus" jdbcType="INTEGER" />
+    <result column="show_status" property="showStatus" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.jluzh.model.ProductCategory" extends="BaseResultMap" >
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, parent_id, name, level, product_count, product_unit, nav_status, show_status, 
+    sort, icon, keywords
+  </sql>
+  <sql id="Blob_Column_List" >
+    description
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.jluzh.model.ProductCategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jluzh.model.ProductCategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product_category
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product_category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jluzh.model.ProductCategoryExample" >
+    delete from product_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jluzh.model.ProductCategory" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_category (parent_id, name, level, 
+      product_count, product_unit, nav_status, 
+      show_status, sort, icon, 
+      keywords, description)
+    values (#{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{productCount,jdbcType=INTEGER}, #{productUnit,jdbcType=VARCHAR}, #{navStatus,jdbcType=INTEGER}, 
+      #{showStatus,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
+      #{keywords,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jluzh.model.ProductCategory" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="productCount != null" >
+        product_count,
+      </if>
+      <if test="productUnit != null" >
+        product_unit,
+      </if>
+      <if test="navStatus != null" >
+        nav_status,
+      </if>
+      <if test="showStatus != null" >
+        show_status,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="keywords != null" >
+        keywords,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="productCount != null" >
+        #{productCount,jdbcType=INTEGER},
+      </if>
+      <if test="productUnit != null" >
+        #{productUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="navStatus != null" >
+        #{navStatus,jdbcType=INTEGER},
+      </if>
+      <if test="showStatus != null" >
+        #{showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jluzh.model.ProductCategoryExample" resultType="java.lang.Integer" >
+    select count(*) from product_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product_category
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCount != null" >
+        product_count = #{record.productCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.productUnit != null" >
+        product_unit = #{record.productUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.navStatus != null" >
+        nav_status = #{record.navStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.showStatus != null" >
+        show_status = #{record.showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywords != null" >
+        keywords = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update product_category
+    set id = #{record.id,jdbcType=BIGINT},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      product_count = #{record.productCount,jdbcType=INTEGER},
+      product_unit = #{record.productUnit,jdbcType=VARCHAR},
+      nav_status = #{record.navStatus,jdbcType=INTEGER},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product_category
+    set id = #{record.id,jdbcType=BIGINT},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      product_count = #{record.productCount,jdbcType=INTEGER},
+      product_unit = #{record.productUnit,jdbcType=VARCHAR},
+      nav_status = #{record.navStatus,jdbcType=INTEGER},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jluzh.model.ProductCategory" >
+    update product_category
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="productCount != null" >
+        product_count = #{productCount,jdbcType=INTEGER},
+      </if>
+      <if test="productUnit != null" >
+        product_unit = #{productUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="navStatus != null" >
+        nav_status = #{navStatus,jdbcType=INTEGER},
+      </if>
+      <if test="showStatus != null" >
+        show_status = #{showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jluzh.model.ProductCategory" >
+    update product_category
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      product_count = #{productCount,jdbcType=INTEGER},
+      product_unit = #{productUnit,jdbcType=VARCHAR},
+      nav_status = #{navStatus,jdbcType=INTEGER},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jluzh.model.ProductCategory" >
+    update product_category
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      product_count = #{productCount,jdbcType=INTEGER},
+      product_unit = #{productUnit,jdbcType=VARCHAR},
+      nav_status = #{navStatus,jdbcType=INTEGER},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jluzh.mapper.OrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.jluzh.model.OrderItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
+    <result column="product_userid" property="productUserid" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="product_pic" property="productPic" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_sn" property="productSn" jdbcType="VARCHAR" />
+    <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+    <result column="product_quantity" property="productQuantity" jdbcType="INTEGER" />
+    <result column="product_category_id" property="productCategoryId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_id, order_sn, product_userid, product_id, product_pic, product_name, product_sn, 
+    product_price, product_quantity, product_category_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jluzh.model.OrderItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jluzh.model.OrderItemExample" >
+    delete from order_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jluzh.model.OrderItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_item (order_id, order_sn, product_userid, 
+      product_id, product_pic, product_name, 
+      product_sn, product_price, product_quantity, 
+      product_category_id)
+    values (#{orderId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{productUserid,jdbcType=BIGINT}, 
+      #{productId,jdbcType=BIGINT}, #{productPic,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{productSn,jdbcType=VARCHAR}, #{productPrice,jdbcType=DECIMAL}, #{productQuantity,jdbcType=INTEGER}, 
+      #{productCategoryId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jluzh.model.OrderItem" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderSn != null" >
+        order_sn,
+      </if>
+      <if test="productUserid != null" >
+        product_userid,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productPic != null" >
+        product_pic,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="productSn != null" >
+        product_sn,
+      </if>
+      <if test="productPrice != null" >
+        product_price,
+      </if>
+      <if test="productQuantity != null" >
+        product_quantity,
+      </if>
+      <if test="productCategoryId != null" >
+        product_category_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null" >
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="productUserid != null" >
+        #{productUserid,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productPic != null" >
+        #{productPic,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productSn != null" >
+        #{productSn,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productQuantity != null" >
+        #{productQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jluzh.model.OrderItemExample" resultType="java.lang.Integer" >
+    select count(*) from order_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderSn != null" >
+        order_sn = #{record.orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productUserid != null" >
+        product_userid = #{record.productUserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.productId != null" >
+        product_id = #{record.productId,jdbcType=BIGINT},
+      </if>
+      <if test="record.productPic != null" >
+        product_pic = #{record.productPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null" >
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSn != null" >
+        product_sn = #{record.productSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productPrice != null" >
+        product_price = #{record.productPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productQuantity != null" >
+        product_quantity = #{record.productQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.productCategoryId != null" >
+        product_category_id = #{record.productCategoryId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_item
+    set id = #{record.id,jdbcType=BIGINT},
+      order_id = #{record.orderId,jdbcType=BIGINT},
+      order_sn = #{record.orderSn,jdbcType=VARCHAR},
+      product_userid = #{record.productUserid,jdbcType=BIGINT},
+      product_id = #{record.productId,jdbcType=BIGINT},
+      product_pic = #{record.productPic,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      product_sn = #{record.productSn,jdbcType=VARCHAR},
+      product_price = #{record.productPrice,jdbcType=DECIMAL},
+      product_quantity = #{record.productQuantity,jdbcType=INTEGER},
+      product_category_id = #{record.productCategoryId,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jluzh.model.OrderItem" >
+    update order_item
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null" >
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="productUserid != null" >
+        product_userid = #{productUserid,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productPic != null" >
+        product_pic = #{productPic,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productSn != null" >
+        product_sn = #{productSn,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        product_price = #{productPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productQuantity != null" >
+        product_quantity = #{productQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="productCategoryId != null" >
+        product_category_id = #{productCategoryId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jluzh.model.OrderItem" >
+    update order_item
+    set order_id = #{orderId,jdbcType=BIGINT},
+      order_sn = #{orderSn,jdbcType=VARCHAR},
+      product_userid = #{productUserid,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      product_pic = #{productPic,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_sn = #{productSn,jdbcType=VARCHAR},
+      product_price = #{productPrice,jdbcType=DECIMAL},
+      product_quantity = #{productQuantity,jdbcType=INTEGER},
+      product_category_id = #{productCategoryId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

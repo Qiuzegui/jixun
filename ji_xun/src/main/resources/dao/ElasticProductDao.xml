@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jluzh.jixun.dao.ElasticProductDao">
+	<resultMap id="ElasticProductListMap" type="com.jluzh.jixun.domain.ElasticProduct" autoMapping="true">
+		<id column="id" jdbcType="BIGINT" property="id" />
+	</resultMap>
+		<select id="getAllProduct" resultMap="ElasticProductListMap">
+			select
+				p.id id,
+				p.user_id userid,
+				p.product_category_id productCategoryId,
+				p.name name,
+				p.pic pic,
+				p.new_status newstatus,
+				p.recommand_status recommandstatue,
+				p.sort sort,
+				p.price price,
+				p.sub_title subTitle,
+				p.stock stock,
+				p.keywords keywords,
+				p.product_category_name productcategoryname,
+				p.time,
+				u.nickname
+			from product p , user_member u
+			where p.user_id=u.id and delete_status = 0 and publish_status = 1
+			<if test="id!=null">
+            	and p.id=#{id}
+        	</if>			
+		</select>
+</mapper>
